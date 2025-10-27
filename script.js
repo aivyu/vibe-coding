@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initIconBarInteractions();
     initResponsiveFeatures();
     initScrollEffects();
+    initScrollAnimations();
+    initSmoothScrolling();
     
     // UFO Animation Controls
     function initUFOAnimation() {
@@ -206,26 +208,164 @@ document.addEventListener('DOMContentLoaded', function() {
             const infoBox = document.querySelector('.info-box');
             const iconBar = document.querySelector('.icon-bar');
             
-            // Parallax effect for UFO
-            if (ufo) {
+            // Parallax effect for UFO (only in hero section)
+            if (ufo && scrollY < window.innerHeight) {
                 const ufoOffset = scrollY * 0.3;
                 ufo.style.transform = `translateX(-50%) translateY(${ufoOffset}px)`;
             }
             
-            // Subtle parallax for info box
-            if (infoBox) {
+            // Subtle parallax for info box (only in hero section)
+            if (infoBox && scrollY < window.innerHeight) {
                 const infoOffset = scrollY * 0.1;
                 infoBox.style.transform = `translateY(${infoOffset}px)`;
             }
             
-            // Subtle parallax for icon bar
-            if (iconBar) {
+            // Subtle parallax for icon bar (only in hero section)
+            if (iconBar && scrollY < window.innerHeight) {
                 const iconOffset = scrollY * 0.1;
                 iconBar.style.transform = `translateY(${-iconOffset}px)`;
             }
             
             ticking = false;
         }
+    }
+    
+    // Scroll Animations
+    function initScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all content sections
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.classList.add('animate-on-scroll');
+            observer.observe(section);
+        });
+        
+        // Observe timeline items
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach((item, index) => {
+            item.classList.add('animate-on-scroll');
+            item.style.animationDelay = `${index * 0.2}s`;
+            observer.observe(item);
+        });
+        
+        // Observe gallery items
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach((item, index) => {
+            item.classList.add('animate-on-scroll');
+            item.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(item);
+        });
+        
+        // Observe UFO items
+        const ufoItems = document.querySelectorAll('.ufo-item');
+        ufoItems.forEach((item, index) => {
+            item.classList.add('animate-on-scroll');
+            item.style.animationDelay = `${index * 0.15}s`;
+            observer.observe(item);
+        });
+    }
+    
+    // Smooth Scrolling
+    function initSmoothScrolling() {
+        // Add smooth scrolling to all internal links
+        const links = document.querySelectorAll('a[href^="#"]');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                });
+            }
+        });
+    });
+    
+        // Add scroll to top functionality
+        const scrollToTopBtn = createScrollToTopButton();
+        document.body.appendChild(scrollToTopBtn);
+    
+    window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    function createScrollToTopButton() {
+        const button = document.createElement('button');
+        button.className = 'scroll-to-top';
+        button.innerHTML = '↑';
+        button.setAttribute('aria-label', '맨 위로 스크롤');
+        
+        // Style the button
+        button.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #FFE135;
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        `;
+        
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(0) scale(1.1)';
+            this.style.background = '#FFD700';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.background = '#FFE135';
+        });
+        
+        // Add show class styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .scroll-to-top.show {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: translateY(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        return button;
     }
     
     // Utility Functions
