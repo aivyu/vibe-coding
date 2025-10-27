@@ -1,0 +1,453 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+/* Background Container */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        #E8F4FD 0%, 
+        #D1E7DD 30%, 
+        #A3D9A4 60%, 
+        #7FB069 100%);
+    position: relative;
+    filter: contrast(1.1) saturate(0.9) brightness(0.95);
+}
+
+.background-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(ellipse at 50% 20%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 30% 80%, rgba(34, 139, 34, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 60%, rgba(0, 100, 0, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* UFO Animation */
+.ufo {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 40px;
+    background: radial-gradient(ellipse at center, #2C2C2C 0%, #1A1A1A 70%, #0D0D0D 100%);
+    border-radius: 50px;
+    box-shadow: 
+        0 0 20px rgba(255, 100, 0, 0.3),
+        inset 0 5px 10px rgba(255, 255, 255, 0.1);
+    animation: ufoFloat 6s ease-in-out infinite;
+}
+
+.ufo::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(255, 100, 0, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: ufoGlow 3s ease-in-out infinite alternate;
+}
+
+.ufo::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    background: #FF6B35;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #FF6B35;
+    animation: ufoBlink 2s ease-in-out infinite;
+}
+
+@keyframes ufoFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0px); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+@keyframes ufoGlow {
+    0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    100% { opacity: 0.9; transform: translateX(-50%) scale(1.1); }
+}
+
+@keyframes ufoBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Yellow Information Box */
+.info-box {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 400px;
+    max-width: calc(100vw - 40px);
+    background: #FFE135;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.content-section {
+    margin-bottom: 24px;
+}
+
+.content-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.content-item:last-child {
+    border-bottom: none;
+}
+
+.date {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 4px;
+    flex: 1;
+}
+
+.description {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #333;
+    line-height: 1.4;
+    flex: 2;
+    margin-right: 16px;
+}
+
+.label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #000;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #FFE135;
+    color: #000;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background: #FFD700;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Yellow Icon Bar */
+.icon-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    background: #FFE135;
+    border-radius: 12px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.icon:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.number-icon {
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .info-box {
+        width: calc(100vw - 40px);
+        max-width: none;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 20px;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .content-item {
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 0;
+    }
+    
+    .description {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .label {
+        align-self: flex-start;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn {
+        padding: 14px 20px;
+    }
+    
+    .icon-bar {
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+        padding: 12px 8px;
+        gap: 12px;
+    }
+    
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .number-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 1rem;
+    }
+    
+    .ufo {
+        width: 60px;
+        height: 30px;
+        top: 12%;
+    }
+    
+    .ufo::before {
+        width: 45px;
+        height: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .info-box {
+        padding: 16px;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        width: calc(100vw - 10px);
+    }
+    
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+    }
+    
+    .content-item {
+        padding: 10px 0;
+    }
+    
+    .date {
+        font-size: 0.8rem;
+    }
+    
+    .description {
+        font-size: 0.75rem;
+    }
+    
+    .label {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+    }
+    
+    .btn {
+        padding: 12px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .icon-bar {
+        width: 45px;
+        padding: 10px 6px;
+        gap: 10px;
+    }
+    
+    .icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .number-icon {
+        width: 22px;
+        height: 22px;
+        font-size: 0.9rem;
+    }
+    
+    .ufo {
+        width: 50px;
+        height: 25px;
+        top: 10%;
+    }
+    
+    .ufo::before {
+        width: 35px;
+        height: 12px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .info-box {
+        top: 10px;
+        left: 10px;
+        width: 350px;
+        max-height: calc(100vh - 20px);
+        overflow-y: auto;
+    }
+    
+    .icon-bar {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .ufo {
+        top: 8%;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .background-image {
+        filter: contrast(1.05) saturate(0.95) brightness(0.98);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .info-box {
+        background: #FFD700;
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+    
+    .icon-bar {
+        background: #FFD700;
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Print styles */
+@media print {
+    .info-box,
+    .icon-bar {
+        position: static;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .background-container {
+        display: none;
+    }
+}
